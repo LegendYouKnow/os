@@ -1,1 +1,21 @@
-asdasdadad
+
+
+ for the  first  commit  ---- >
+
+# First add your files (you've already done this)
+git add .
+
+# Now commit with a message
+git commit -m "Initial commit"
+
+# Then push, setting the upstream branch
+git push -u origin main
+
+
+
+
+git  add . 
+
+git commit --allow-empty-message -m ""
+
+git  push  
