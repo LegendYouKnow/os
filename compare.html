@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OS Virtual Lab</title>
+    <link rel="stylesheet" href="css/bootstrap.css" type="text/css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/animate.css" type="text/css">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="css/compare_style.css">
+    <link rel="shortcut icon" type="image/png" href="images/website_logo1.png">
+    
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+        }
+        
+        /* Hide seek time displays in line chart boxes */
+        #compare-line-chart .seek {
+            display: none !important;
+        }
+        
+        /* Modern Navbar Styling */
+        .modern-navbar {
+            background: linear-gradient(135deg, #1a2a6c, #2c3e50);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 0.8rem 1rem;
+        }
+        
+        .modern-navbar .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .modern-navbar .navbar-brand img {
+            transition: transform 0.3s ease;
+            height: 40px;
+            width: auto;
+        }
+        
+        .modern-navbar .navbar-brand:hover img {
+            transform: scale(1.1);
+        }
+        
+        .modern-navbar .nav-link {
+            color: rgba(255, 255, 255, 0.85) !important;
+            font-weight: 500;
+            position: relative;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .modern-navbar .nav-link:hover, .modern-navbar .nav-link.active {
+            color: white !important;
+        }
+        
+        .modern-navbar .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background: white;
+            transition: width 0.3s ease;
+        }
+        
+        .modern-navbar .nav-link:hover::after, .modern-navbar .nav-link.active::after {
+            width: 100%;
+        }
+        
+        .modern-navbar .dropdown-menu {
+            background: rgba(26, 42, 108, 0.9);
+            backdrop-filter: blur(10px);
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .modern-navbar .dropdown-item {
+            color: rgba(255, 255, 255, 0.85);
+            transition: all 0.2s ease;
+            padding: 10px 20px;
+        }
+        
+        .modern-navbar .dropdown-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            transform: translateX(5px);
+        }
+        
+        /* Modern Header Styling */
+        .modern-header {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #1a2a6c, #2c3e50);
+            min-height: 40vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+            margin-bottom: 50px;
+        }
+        
+        .disk-effect {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+        
+        .disk-effect-circle {
+            position: absolute;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+        }
+        
+        .header-title {
+            font-size: 5rem;
+            font-weight: 700;
+            margin: 20px 0;
+            background: linear-gradient(45deg, white, #74b9ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .typing-container {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.5rem;
+            margin-top: 20px;
+            font-weight: 600;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        /* Modern Form Styling */
+        .compare-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 30px;
+            margin-bottom: 50px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+        }
+        
+        .section-heading {
+            font-size: 2.2rem;
+            position: relative;
+            margin-bottom: 40px;
+            text-align: center;
+            color: #2c3e50;
+        }
+        
+        .section-heading::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, #3498db, transparent);
+        }
+        
+        .compare-form-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 30px;
+        }
+        
+        .form-section {
+            flex: 1;
+            min-width: 300px;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .form-section-heading {
+            text-align: center;
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 25px;
+            color: #2c3e50;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .form-section-heading::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, #3498db, #74b9ff);
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        .input-label {
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: #2c3e50;
+        }
+        
+        .modern-input {
+            border-radius: 10px;
+            border: 1px solid rgba(0,0,0,0.1);
+            padding: 12px 15px;
+            transition: all 0.3s ease;
+            width: 100%;
+            font-size: 1rem;
+        }
+        
+        .modern-input:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+            outline: none;
+        }
+        
+        .modern-select {
+            border-radius: 10px;
+            border: 1px solid rgba(0,0,0,0.1);
+            padding: 12px 15px;
+            transition: all 0.3s ease;
+            width: 100%;
+            font-size: 1rem;
+            -webkit-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%232c3e50' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 16px;
+        }
+        
+        .algorithm-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        
+        .algorithm-option {
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            border: 1px solid rgba(0,0,0,0.05);
+            cursor: pointer;
+        }
+        
+        .algorithm-option:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .algorithm-option input {
+            margin-right: 15px;
+            width: 18px;
+            height: 18px;
+            accent-color: #3498db;
+        }
+        
+        .algorithm-option-label {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #2c3e50;
+        }
+        
+        .button-container {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            justify-content: center;
+        }
+        
+        .modern-button {
+            padding: 12px 25px;
+            border-radius: 10px;
+            border: none;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 150px;
+        }
+        
+        .reset-button {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            box-shadow: 0 4px 10px rgba(44, 62, 80, 0.3);
+        }
+        
+        .reset-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(44, 62, 80, 0.4);
+        }
+        
+        .compare-button {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
+        }
+        
+        .compare-button:hover:not(.disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(52, 152, 219, 0.4);
+        }
+        
+        .compare-button.disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+        
+        /* Results and Charts Section */
+        .results-section {
+            margin-top: 50px;
+        }
+        
+        .chart-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .carousel-control-prev-icon,
+        .carousel-control-next-icon {
+            background-color: #3498db;
+            border-radius: 50%;
+            padding: 20px;
+        }
+        
+        .chart-info {
+            text-align: center;
+            margin-top: 20px;
+            padding: 15px;
+            border-top: 1px solid rgba(0,0,0,0.1);
+            color: #2c3e50;
+            font-weight: 500;
+        }
+        
+        /* Footer Styling */
+        .modern-footer {
+            background: linear-gradient(135deg, #1a2a6c, #2c3e50);
+            color: white;
+            padding: 40px 0 20px;
+            box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.1);
+            margin-top: 50px;
+        }
+        
+        .modern-footer .footerpanel-title {
+            color: white;
+            font-weight: 600;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+            padding-bottom: 10px;
+            position: relative;
+        }
+        
+        .modern-footer .footerpanel-title::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: #3498db;
+        }
+        
+        .modern-footer .footercontent ul {
+            margin-left: -40px;
+        }
+        
+        .modern-footer .footercontent a {
+            color: rgba(255, 255, 255, 0.75);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: block;
+            padding: 5px 0;
+        }
+        
+        .modern-footer .footercontent a:hover {
+            color: white;
+            transform: translateX(5px);
+        }
+        
+        .modern-footer .footer-bottom {
+            padding-top: 20px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modern-footer .social-icons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .modern-footer .social-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+        
+        .modern-footer .social-icon:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+        }
+        
+        .modern-footer .divider {
+            width: 1px;
+            height: 30px;
+            background: rgba(255, 255, 255, 0.3);
+            margin: 0 20px;
+        }
+        
+        .modern-footer .copyright {
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar sticky-top navbar-expand-lg modern-navbar">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="diskscheduling_index.html">
+                <img id="logo" src="images/website_logo1.png" alt="logo">
+                <div style="color: white; font-weight: 600; letter-spacing: 0.5px;">Disk Scheduling</div>
+            </a>
+            <div class="divider"></div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="index.html">
+                            <div>Home</div>
+                        </a>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Algorithms
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="pagereplacement_index.html">Page Replacement</a></li>
+                            <li><a class="dropdown-item" href="diskscheduling_index.html">Disk Scheduling</a></li>
+                            <li><a class="dropdown-item" href="#">CPU Scheduling</a></li>
+                            <li><a class="dropdown-item" href="#">Concurrency</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link active" href="compare.html"><span>Compare</span></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="modern-header">
+        <div class="disk-effect">
+            <!-- Dynamic disk visualization -->
+            <div class="disk-effect-circle" style="width: 650px; height: 650px;"></div>
+            <div class="disk-effect-circle" style="width: 500px; height: 500px;"></div>
+            <div class="disk-effect-circle" style="width: 350px; height: 350px;"></div>
+            <div class="disk-effect-circle" style="width: 200px; height: 200px;"></div>
+        </div>
+        
+        <div class="header-content">
+            <div class="animate__animated animate__fadeIn" style="letter-spacing: 5px; color: rgba(255, 255, 255, 0.7); font-size: 1.2rem;">
+                ANALYZE PERFORMANCE
+            </div>
+            <h1 class="header-title animate__animated animate__slideInUp">COMPARE ALGORITHMS</h1>
+            <div class="typing-container animate__animated animate__fadeIn">
+                <span class="type-writer" style="color: white;" data-wait="2000"
+                    data-words='["FCFS", "SSTF", "SCAN", "C-SCAN", "LOOK", "C-LOOK"]'></span>
+            </div>
+        </div>
+    </div>
+
+    <div id="compare-first-block" class="compare-card">
+        <h2 class="section-heading">Compare Algorithm Performance</h2>
+        
+        <div id="alert-wrapper"></div>
+        
+        <form id="compare-form">
+            <div class="compare-form-container">
+                <div class="form-section">
+                    <h3 class="form-section-heading">Input Parameters</h3>
+                    
+                    <div class="input-group">
+                        <label class="input-label">Number of Requests</label>
+                        <input type="text" class="modern-input" id="requests" placeholder="Enter number of requests">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label class="input-label">Head Position</label>
+                        <input type="text" class="modern-input" id="head" placeholder="Enter head position" 
+                            data-bs-toggle="popover" data-bs-trigger="hover" title="Important!"
+                            data-bs-content="The value of head position should not lie outside the range of track numbers.">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label class="input-label">Total Tracks</label>
+                        <input type="text" class="modern-input" id="max-track" placeholder="Enter total track number">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label class="input-label">Direction</label>
+                        <select id="direction" class="modern-select">
+                            <option value="left">Left</option>
+                            <option value="right">Right</option>
+                        </select>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label class="input-label">Tracks</label>
+                        <input type="text" class="modern-input" id="tracks" placeholder="Comma or space separated tracks" 
+                            data-bs-toggle="popover" data-bs-trigger="hover" title="Important!"
+                            data-bs-content="Make sure that the values of the tracks are either space separated or comma separated. There should not be any comma before the first track value and after the last track value. Any track request should not exceed the maximum possible track number.">
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h3 class="form-section-heading">Select Algorithms</h3>
+                    
+                    <div class="algorithm-options">
+                        <label class="algorithm-option">
+                            <input class="form-check-input" type="checkbox" id="fcfs">
+                            <span class="algorithm-option-label">FCFS</span>
+                        </label>
+                        
+                        <label class="algorithm-option">
+                            <input class="form-check-input" type="checkbox" id="sstf">
+                            <span class="algorithm-option-label">SSTF</span>
+                        </label>
+                        
+                        <label class="algorithm-option">
+                            <input class="form-check-input" type="checkbox" id="scan">
+                            <span class="algorithm-option-label">SCAN</span>
+                        </label>
+                        
+                        <label class="algorithm-option">
+                            <input class="form-check-input" type="checkbox" id="cscan">
+                            <span class="algorithm-option-label">C-SCAN</span>
+                        </label>
+                        
+                        <label class="algorithm-option">
+                            <input class="form-check-input" type="checkbox" id="look">
+                            <span class="algorithm-option-label">LOOK</span>
+                        </label>
+                        
+                        <label class="algorithm-option">
+                            <input class="form-check-input" type="checkbox" id="clook">
+                            <span class="algorithm-option-label">C-LOOK</span>
+                        </label>
+                    </div>
+                    
+                    <div class="button-container">
+                        <input id="reset-button" type="reset" class="modern-button reset-button">
+                        <button id="compare" type="button" class="modern-button compare-button"
+                            data-bs-toggle="popover" data-bs-trigger="hover" title="Warning!"
+                            data-bs-content="None of the fields above should be empty. They should not contain any alphabetic or special character!">
+                            Compare
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Algorithm Legend Container -->
+    <div id="chart-legends" class="compare-card">
+        <h2 class="section-heading">Algorithm Legend</h2>
+        <div class="chart-legend-container" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;">
+            <div class="legend-item" style="display: flex; align-items: center; margin: 10px;">
+                <div class="legend-color" style="width: 30px; height: 5px; background: #FF6384; margin-right: 8px;"></div>
+                <div class="legend-label">FCFS</div>
+            </div>
+            <div class="legend-item" style="display: flex; align-items: center; margin: 10px;">
+                <div class="legend-color" style="width: 30px; height: 5px; background: #36A2EB; margin-right: 8px;"></div>
+                <div class="legend-label">SSTF</div>
+            </div>
+            <div class="legend-item" style="display: flex; align-items: center; margin: 10px;">
+                <div class="legend-color" style="width: 30px; height: 5px; background: #FFCE56; margin-right: 8px;"></div>
+                <div class="legend-label">SCAN</div>
+            </div>
+            <div class="legend-item" style="display: flex; align-items: center; margin: 10px;">
+                <div class="legend-color" style="width: 30px; height: 5px; background: #4BC0C0; margin-right: 8px;"></div>
+                <div class="legend-label">C-SCAN</div>
+            </div>
+            <div class="legend-item" style="display: flex; align-items: center; margin: 10px;">
+                <div class="legend-color" style="width: 30px; height: 5px; background: #9966FF; margin-right: 8px;"></div>
+                <div class="legend-label">LOOK</div>
+            </div>
+            <div class="legend-item" style="display: flex; align-items: center; margin: 10px;">
+                <div class="legend-color" style="width: 30px; height: 5px; background: #FF9F40; margin-right: 8px;"></div>
+                <div class="legend-label">C-LOOK</div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="compare-line-chart" class="compare-card">
+        <h2 class="section-heading" id="text">Graphs Of Selected Algorithms</h2>
+        
+        <div id="chart-container" class="chart-container">
+            <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
+                <div id="cindicators" class="carousel-indicators" style="margin-top: 10px; position: relative;">
+                    <!-- Indicators will be added dynamically by JS -->
+                </div>
+
+                <div id="cinner" class="carousel-inner">
+                    <!-- Chart items will be added dynamically by JS -->
+                    <div id="fcfsCarousel" class="carousel-item active" data-bs-interval="10000">
+                        <div class="chartres">
+                            <canvas id="fcfschart"></canvas>
+                        </div>
+                    </div>
+
+                    <div id="sstfCarousel" class="carousel-item" data-bs-interval="10000">
+                        <div class="chartres">
+                            <canvas id="sstfchart"></canvas>
+                        </div>
+                    </div>
+
+                    <div id="clookCarousel" class="carousel-item" data-bs-interval="10000">
+                        <div class="chartres">
+                            <canvas id="clookchart"></canvas>
+                        </div>
+                    </div>
+
+                    <div id="cscanCarousel" class="carousel-item" data-bs-interval="10000">
+                        <div class="chartres">
+                            <canvas id="cscanchart"></canvas>
+                        </div>
+                    </div>
+
+                    <div id="lookCarousel" class="carousel-item" data-bs-interval="10000">
+                        <div class="chartres">
+                            <canvas id="lookchart"></canvas>
+                        </div>
+                    </div>
+
+                    <div id="scanCarousel" class="carousel-item" data-bs-interval="10000">
+                        <div class="chartres">
+                            <canvas id="scanchart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark"
+                    data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark"
+                    data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <div id="compare-bar-chart" class="compare-card">
+        <h2 class="section-heading">Comparing Seek Operations</h2>
+        
+        <div id="bar-chart-wrapper">
+            <div id="barchart-container" class="chart-container">
+                <div style="width: 100%; height: 100%;">
+                    <div class="chartres">
+                        <canvas id="barchart"></canvas>
+                    </div>
+                    <div id="download-buttons" class="chart-info">
+                        <h4 class="animate__animated animate__backInUp" style="font-weight: 600;">Download Chart</h4>
+                        <div id="dImageIcon"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div id="foooter">
+        <div class="footer-dark modern-footer">
+            <footer>
+                <div id="footer-container" class="footercontainer">
+                    <div class="footerflex-1">
+                        <div class="footerrow">
+                            <!-- Disk Scheduling Panel -->
+                            <div class="footerpanel-group" id="accordion">
+                                <div class="panel panel-default" id="footerpanel">
+                                    <div class="footerpanel-heading">
+                                        <h4 class="footerpanel-title accordion-button" data-bs-toggle="collapse"
+                                            data-bs-target="#collapseThree"
+                                            aria-expanded="false" aria-controls="collapseThree">
+                                            Disk Scheduling
+                                        </h4>
+                                    </div>
+                                    <div id="collapseThree" class="panel-collapse collapse"
+                                        aria-labelledby="headingOne" data-bs-parent="#accordion">
+                                        <div class="footercontent">
+                                            <ul style="list-style-type: none;">
+                                                <li><a href="fcfs.html">FCFS</a></li>
+                                                <li><a href="sstf.html">SSTF</a></li>
+                                                <li><a href="scan.html">SCAN</a></li>
+                                                <li><a href="cscan.html">C-SCAN</a></li>
+                                                <li><a href="look.html">LOOK</a></li>
+                                                <li><a href="clook.html">C-LOOK</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footer-bottom">
+                        <div class="social-icons">
+                            <a href="https://github.com/LegendYouKnow/os.git" target="_blank" class="social-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white" class="bi bi-github" viewBox="0 0 16 16">
+                                    <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z" />
+                                </svg>
+                            </a>
+                        </div>
+                        <div class="divider"></div>
+                        <div class="copyright">OS Project © Team 100</div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+        crossorigin="anonymous"></script>
+    <script src="js/Chart.min.js"></script>
+    <script src="js/search.js"></script>
+    <script src="js/compare.js"></script>
+    <script src="js/typewriter.js"></script>
+</body>
+
+</html>
