@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OS Virtual Lab</title>
+    <link rel="stylesheet" href="css/bootstrap.css" type="text/css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/animate.css" type="text/css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+        crossorigin="anonymous"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="shortcut icon" type="image/png" href="images/website_logo1.png">
+    
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        /* Modern Navbar Styling */
+        .modern-navbar {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 0.8rem 1rem;
+        }
+        
+        .modern-navbar .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .modern-navbar .navbar-brand img {
+            transition: transform 0.3s ease;
+        }
+        
+        .modern-navbar .navbar-brand:hover img {
+            transform: scale(1.1);
+        }
+        
+        .modern-navbar .nav-link {
+            color: rgba(255, 255, 255, 0.85) !important;
+            font-weight: 500;
+            position: relative;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .modern-navbar .nav-link:hover, .modern-navbar .nav-link.active {
+            color: white !important;
+        }
+        
+        .modern-navbar .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background: white;
+            transition: width 0.3s ease;
+        }
+        
+        .modern-navbar .nav-link:hover::after, .modern-navbar .nav-link.active::after {
+            width: 100%;
+        }
+        
+        .modern-navbar .dropdown-menu {
+            background: rgba(26, 42, 108, 0.9);
+            backdrop-filter: blur(10px);
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .modern-navbar .dropdown-item {
+            color: rgba(255, 255, 255, 0.85);
+            transition: all 0.2s ease;
+            padding: 10px 20px;
+        }
+        
+        .modern-navbar .dropdown-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            transform: translateX(5px);
+        }
+        
+        /* Modern Footer Styling */
+        .modern-footer {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f);
+            color: white;
+            padding: 40px 0 20px;
+            box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .modern-footer .footerpanel-title {
+            color: white;
+            font-weight: 600;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+            padding-bottom: 10px;
+            position: relative;
+        }
+        
+        .modern-footer .footerpanel-title::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: #fdbb2d;
+        }
+        
+        .modern-footer .footercontent ul {
+            margin-left: -40px;
+        }
+        
+        .modern-footer .footercontent a {
+            color: rgba(255, 255, 255, 0.75);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: block;
+            padding: 5px 0;
+        }
+        
+        .modern-footer .footercontent a:hover {
+            color: white;
+            transform: translateX(5px);
+        }
+        
+        .modern-footer .copyright {
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+        
+        .modern-footer .social-icons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .modern-footer .social-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+        
+        .modern-footer .social-icon:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+        }
+        
+        .modern-footer .divider {
+            width: 1px;
+            height: 30px;
+            background: rgba(255, 255, 255, 0.3);
+            margin: 0 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar sticky-top navbar-expand-lg modern-navbar">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="diskscheduling_index.html">
+                <img id="logo" src="images/website_logo1.png" alt="logo" style="height: 40px; width: auto;">
+                <div class="hover-border" style="color: white; font-weight: 600; letter-spacing: 0.5px;">Disk Scheduling</div>
+            </a>
+            <div class="divider"></div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="diskscheduling_index.html">
+                            <div>Home</div>
+                        </a>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Algorithms
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="diskscheduling_index.html">Disk Scheduling</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="compare.html"><span>Compare</span></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="block" style="position: relative; overflow: hidden; background: linear-gradient(135deg, #1a2a6c, #b21f1f); min-height: 40vh; display: flex; justify-content: center; align-items: center; margin-bottom: 50px;">        
+        <div class="overlay" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0;">
+            <!-- Dynamic disk track pattern using CSS -->
+            <div style="position: absolute; width: 550px; height: 550px; border: 2px solid rgba(255,255,255,0.1); border-radius: 50%; top: 50%; left: 50%; transform: translate(-50%, -50%);"></div>
+            <div style="position: absolute; width: 450px; height: 450px; border: 2px solid rgba(255,255,255,0.1); border-radius: 50%; top: 50%; left: 50%; transform: translate(-50%, -50%);"></div>
+            <div style="position: absolute; width: 350px; height: 350px; border: 2px solid rgba(255,255,255,0.1); border-radius: 50%; top: 50%; left: 50%; transform: translate(-50%, -50%);"></div>
+            <div style="position: absolute; width: 250px; height: 250px; border: 2px solid rgba(255,255,255,0.1); border-radius: 50%; top: 50%; left: 50%; transform: translate(-50%, -50%);"></div>
+            <div style="position: absolute; width: 150px; height: 150px; border: 2px solid rgba(255,255,255,0.1); border-radius: 50%; top: 50%; left: 50%; transform: translate(-50%, -50%);"></div>
+        </div>
+        <div style="position: absolute; width: 100%; height: 100%; overflow: hidden;">
+            <div style="position: absolute; width: 300px; height: 300px; border-radius: 50%; background: radial-gradient(circle at center, rgba(52, 152, 219, 0.3), transparent); top: -100px; left: -100px; filter: blur(50px);"></div>
+            <div style="position: absolute; width: 300px; height: 300px; border-radius: 50%; background: radial-gradient(circle at center, rgba(142, 68, 173, 0.2), transparent); bottom: -50px; right: -50px; filter: blur(60px);"></div>
+        </div>
+        <div class="heading" style="position: relative; z-index: 10;">
+            <div class="animate__animated animate__fadeIn" style="margin-bottom: 15px; letter-spacing: 5px; color: rgba(255, 255, 255, 0.7); font-size: 1.2rem;">DISK SCHEDULING ALGORITHM</div>
+            <h1 class="animate__animated animate__slideInUp" style="text-align: center; font-size: 5rem; font-weight: 700; margin: 0; background: linear-gradient(45deg, white, #f1c40f); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 5px 15px rgba(0,0,0,0.2);">SSTF</h1>
+            <div class="animate__animated animate__fadeIn animate__delay-1s" style="text-align: center; margin-top: 20px; color: white; font-size: 1.2rem;">Shortest Seek Time First</div>
+        </div>
+    </div>
+
+    <div class="mid-block">
+        <div class="mid-heading-wrapper" style="margin-bottom: 40px;">
+            <div class="mid-heading">
+                <h1 class="hover-border" style="font-size: 2.5rem; position: relative;">
+                    About
+                    <span style="position: absolute; bottom: -10px; left: 0; width: 50px; height: 4px; background: linear-gradient(90deg, #3498db, transparent);"></span>
+                </h1>
+            </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; align-items: center; max-width: 1200px; margin: 0 auto; gap: 40px;">
+            <div style="width: 65rem; padding: 30px 0;">
+                <h2 style="text-align: center; font-size: 2.5rem; background: linear-gradient(45deg, #8e44ad, #9b59b6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 30px;">SSTF Overview</h2>
+                
+                <div style="background-color: rgba(142, 68, 173, 0.1); padding: 25px; border-radius: 10px; margin-bottom: 30px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); position: relative;">
+                    <div style="position: absolute; top: -15px; left: 20px; background: linear-gradient(45deg, #8e44ad, #9b59b6); color: white; padding: 5px 15px; border-radius: 20px; font-weight: bold;">Definition</div>
+                    <p style="margin: 10px 0 0; font-size: 1.1rem; line-height: 1.6;">
+                        In SSTF, requests having shortest seek time are executed first. So, the seek
+                        time of every request is calculated in advance in the queue and then they are scheduled
+                        according to their calculated seek time. As a result, the request near the disk arm will get
+                        executed first. SSTF is certainly an improvement over FCFS as it decreases the average response
+                        time and increases the throughput of system.
+                    </p>
+                </div>
+                
+                <h3 style="font-size: 1.8rem; margin: 0 0 20px 20px; display: flex; align-items: center;">
+                    <span style="background: linear-gradient(45deg, #27ae60, #2ecc71); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-right: 10px; font-size: 2rem;">✓</span> 
+                    <span style="background: linear-gradient(45deg, #27ae60, #2ecc71); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Advantages</span>
+                </h3>
+                
+                <div style="position: relative; padding-left: 60px; margin-bottom: 30px;">
+                    <div style="position: absolute; top: 0; bottom: 0; left: 20px; width: 4px; background: linear-gradient(to bottom, #27ae60, #2ecc71);"></div>
+                    
+                    <div style="position: relative; margin-bottom: 20px;">
+                        <div style="position: absolute; left: -20px; width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(45deg, #27ae60, #2ecc71); color: white; text-align: center; line-height: 40px; font-weight: bold; box-shadow: 0 3px 8px rgba(0,0,0,0.2);">1</div>
+                        <div style="background-color: rgba(46, 204, 113, 0.1); padding: 20px; border-radius: 8px; box-shadow: 0 3px 10px rgba(0,0,0,0.1);">
+                            <p style="margin: 0; font-size: 1.1rem;">In SSTF disk scheduling, the average response time is decreased.</p>
+                        </div>
+                    </div>
+                    
+                    <div style="position: relative; margin-bottom: 20px;">
+                        <div style="position: absolute; left: -20px; width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(45deg, #27ae60, #2ecc71); color: white; text-align: center; line-height: 40px; font-weight: bold; box-shadow: 0 3px 8px rgba(0,0,0,0.2);">2</div>
+                        <div style="background-color: rgba(46, 204, 113, 0.1); padding: 20px; border-radius: 8px; box-shadow: 0 3px 10px rgba(0,0,0,0.1);">
+                            <p style="margin: 0; font-size: 1.1rem;">Increased throughput.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <h3 style="font-size: 1.8rem; margin: 0 0 20px 20px; display: flex; align-items: center;">
+                    <span style="background: linear-gradient(45deg, #c0392b, #e74c3c); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-right: 10px; font-size: 2rem;">✗</span> 
+                    <span style="background: linear-gradient(45deg, #c0392b, #e74c3c); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Disadvantages</span>
+                </h3>
+                
+                <div style="position: relative; padding-left: 60px;">
+                    <div style="position: absolute; top: 0; bottom: 0; left: 20px; width: 4px; background: linear-gradient(to bottom, #c0392b, #e74c3c);"></div>
+                    
+                    <div style="position: relative; margin-bottom: 20px;">
+                        <div style="position: absolute; left: -20px; width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(45deg, #c0392b, #e74c3c); color: white; text-align: center; line-height: 40px; font-weight: bold; box-shadow: 0 3px 8px rgba(0,0,0,0.2);">1</div>
+                        <div style="background-color: rgba(231, 76, 60, 0.1); padding: 20px; border-radius: 8px; box-shadow: 0 3px 10px rgba(0,0,0,0.1);">
+                            <p style="margin: 0; font-size: 1.1rem;">In SSTF, there may be a chance of starvation.</p>
+                        </div>
+                    </div>
+                    
+                    <div style="position: relative; margin-bottom: 20px;">
+                        <div style="position: absolute; left: -20px; width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(45deg, #c0392b, #e74c3c); color: white; text-align: center; line-height: 40px; font-weight: bold; box-shadow: 0 3px 8px rgba(0,0,0,0.2);">2</div>
+                        <div style="background-color: rgba(231, 76, 60, 0.1); padding: 20px; border-radius: 8px; box-shadow: 0 3px 10px rgba(0,0,0,0.1);">
+                            <p style="margin: 0; font-size: 1.1rem;">SSTF is not an optimal algorithm.</p>
+                        </div>
+                    </div>
+                    
+                    <div style="position: relative; margin-bottom: 20px;">
+                        <div style="position: absolute; left: -20px; width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(45deg, #c0392b, #e74c3c); color: white; text-align: center; line-height: 40px; font-weight: bold; box-shadow: 0 3px 8px rgba(0,0,0,0.2);">3</div>
+                        <div style="background-color: rgba(231, 76, 60, 0.1); padding: 20px; border-radius: 8px; box-shadow: 0 3px 10px rgba(0,0,0,0.1);">
+                            <p style="margin: 0; font-size: 1.1rem;">There are chances of overhead in SSTF disk scheduling because, in this algorithm, we have to calculate the seek time in advanced.</p>
+                        </div>
+                    </div>
+                    
+                    <div style="position: relative; margin-bottom: 0;">
+                        <div style="position: absolute; left: -20px; width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(45deg, #c0392b, #e74c3c); color: white; text-align: center; line-height: 40px; font-weight: bold; box-shadow: 0 3px 8px rgba(0,0,0,0.2);">4</div>
+                        <div style="background-color: rgba(231, 76, 60, 0.1); padding: 20px; border-radius: 8px; box-shadow: 0 3px 10px rgba(0,0,0,0.1);">
+                            <p style="margin: 0; font-size: 1.1rem;">The speed of this algorithm can be decreased because direction could be switched frequently.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="width: 65rem; padding: 30px 0;">
+                <h2 style="text-align: center; font-size: 2.5rem; background: linear-gradient(45deg, #3498db, #2980b9); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 30px;">Algorithm Steps</h2>
+                
+                <div style="position: relative; padding-left: 60px;">
+                    <div style="position: absolute; top: 0; bottom: 0; left: 20px; width: 4px; background: linear-gradient(to bottom, #3498db, #2980b9);"></div>
+                    
+                    <div style="position: relative; margin-bottom: 30px;">
+                        <div style="position: absolute; left: -20px; width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(45deg, #3498db, #2980b9); color: white; text-align: center; line-height: 40px; font-weight: bold; box-shadow: 0 3px 8px rgba(0,0,0,0.2);">1</div>
+                        <div style="background-color: rgba(52, 152, 219, 0.1); padding: 20px; border-radius: 8px; box-shadow: 0 3px 10px rgba(0,0,0,0.1);">
+                            <p style="margin: 0; font-size: 1.1rem;">Let Request array represents an array storing indexes of tracks that have been requested. 'head' is the position of disk head.</p>
+                        </div>
+                    </div>
+                    
+                    <div style="position: relative; margin-bottom: 30px;">
+                        <div style="position: absolute; left: -20px; width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(45deg, #3498db, #2980b9); color: white; text-align: center; line-height: 40px; font-weight: bold; box-shadow: 0 3px 8px rgba(0,0,0,0.2);">2</div>
+                        <div style="background-color: rgba(52, 152, 219, 0.1); padding: 20px; border-radius: 8px; box-shadow: 0 3px 10px rgba(0,0,0,0.1);">
+                            <p style="margin: 0; font-size: 1.1rem;">Find the positive distance of all tracks in the request array from head.</p>
+                        </div>
+                    </div>
+                    
+                    <div style="position: relative; margin-bottom: 30px;">
+                        <div style="position: absolute; left: -20px; width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(45deg, #3498db, #2980b9); color: white; text-align: center; line-height: 40px; font-weight: bold; box-shadow: 0 3px 8px rgba(0,0,0,0.2);">3</div>
+                        <div style="background-color: rgba(52, 152, 219, 0.1); padding: 20px; border-radius: 8px; box-shadow: 0 3px 10px rgba(0,0,0,0.1);">
+                            <p style="margin: 0; font-size: 1.1rem;">Find a track from requested array which has not been accessed/serviced yet and has minimum distance from head.</p>
+                        </div>
+                    </div>
+                    
+                    <div style="position: relative; margin-bottom: 30px;">
+                        <div style="position: absolute; left: -20px; width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(45deg, #3498db, #2980b9); color: white; text-align: center; line-height: 40px; font-weight: bold; box-shadow: 0 3px 8px rgba(0,0,0,0.2);">4</div>
+                        <div style="background-color: rgba(52, 152, 219, 0.1); padding: 20px; border-radius: 8px; box-shadow: 0 3px 10px rgba(0,0,0,0.1);">
+                            <p style="margin: 0; font-size: 1.1rem;">Increment the total seek count with this distance.</p>
+                        </div>
+                    </div>
+                    
+                    <div style="position: relative; margin-bottom: 30px;">
+                        <div style="position: absolute; left: -20px; width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(45deg, #3498db, #2980b9); color: white; text-align: center; line-height: 40px; font-weight: bold; box-shadow: 0 3px 8px rgba(0,0,0,0.2);">5</div>
+                        <div style="background-color: rgba(52, 152, 219, 0.1); padding: 20px; border-radius: 8px; box-shadow: 0 3px 10px rgba(0,0,0,0.1);">
+                            <p style="margin: 0; font-size: 1.1rem;">Currently serviced track position now becomes the new head position.</p>
+                        </div>
+                    </div>
+                    
+                    <div style="position: relative;">
+                        <div style="position: absolute; left: -20px; width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(45deg, #3498db, #2980b9); color: white; text-align: center; line-height: 40px; font-weight: bold; box-shadow: 0 3px 8px rgba(0,0,0,0.2);">6</div>
+                        <div style="background-color: rgba(52, 152, 219, 0.1); padding: 20px; border-radius: 8px; box-shadow: 0 3px 10px rgba(0,0,0,0.1);">
+                            <p style="margin: 0; font-size: 1.1rem;">Go to step 2 until all tracks in request array have not been serviced.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="background-color: rgba(44, 62, 80, 0.1); border-radius: 10px; padding: 25px; margin-top: 40px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                    <h3 style="color: #F39C12; margin-top: 0; text-align: center; margin-bottom: 20px;">Visualization Example</h3>
+                    <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 25px;">
+                        <div style="display: flex; flex-direction: column; align-items: center; text-align: center; margin-right: 40px;">
+                            <div style="width: 50px; height: 50px; background: linear-gradient(45deg, #3498DB, #2980B9); border-radius: 50%; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">Head</div>
+                            <span>Current Position</span>
+                        </div>
+                        <div style="flex-grow: 0; width: 200px; height: 3px; background: linear-gradient(to right, #3498DB, #F39C12); margin: 0 20px;"></div>
+                        <div style="display: flex; flex-direction: column; align-items: center; text-align: center; margin-left: 40px;">
+                            <div style="width: 50px; height: 50px; background: linear-gradient(45deg, #E74C3C, #C0392B); border-radius: 50%; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">Next</div>
+                            <span>Closest Request</span>
+                        </div>
+                    </div>
+                    <p style="text-align: center; color: #555; font-style: italic; margin-bottom: 0;">SSTF always selects the closest request to minimize disk arm movement</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="last-block">        <div class="mid-heading-wrapper" style="margin-bottom: 40px;">            <div class="mid-heading">                <h1 class="hover-border" style="font-size: 2.5rem; position: relative;">                    Implementation                    <span style="position: absolute; bottom: -10px; left: 0; width: 50px; height: 4px; background: linear-gradient(90deg, #3498db, transparent);"></span>                </h1>            </div>        </div>
+
+    <div id="alert-wrapper"></div>
+
+    <div class="running-algo">
+        <form>
+            <div id="controls" style="background: rgba(52, 152, 219, 0.05); padding: 30px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1);">
+
+                <div class="mb-4">
+                    <label for="requests" class="form-label" style="font-weight: 500; color: #2c3e50; margin-bottom: 8px;">Number Of Requests</label>
+                    <input type="number" class="form-control" id="requests" style="border-radius: 8px; border: 1px solid rgba(52, 152, 219, 0.3); padding: 12px; transition: all 0.3s ease;">
+                </div>
+
+                <div class="mb-4">
+                    <label for="max-track" class="form-label" style="font-weight: 500; color: #2c3e50; margin-bottom: 8px;">Total Tracks</label>
+                    <input type="number" class="form-control" id="max-track" placeholder="Maximum track number" style="border-radius: 8px; border: 1px solid rgba(52, 152, 219, 0.3); padding: 12px; transition: all 0.3s ease;">
+                </div>
+
+                <div class="mb-4">
+                    <label for="head" class="form-label" style="font-weight: 500; color: #2c3e50; margin-bottom: 8px;">Head Position</label>
+                    <input type="number" class="form-control" id="head" data-bs-toggle="popover"
+                        data-bs-trigger="hover" title="Important!"
+                        data-bs-content="The value of head position should not lie outside the range of track numbers." style="border-radius: 8px; border: 1px solid rgba(52, 152, 219, 0.3); padding: 12px; transition: all 0.3s ease;">
+                </div>
+
+                <div class="mb-4">
+                    <label for="tracks" class="form-label" style="font-weight: 500; color: #2c3e50; margin-bottom: 8px;">Tracks</label>
+                    <input type="text" class="form-control" id="tracks" placeholder="Track requests"
+                        data-bs-toggle="popover" data-bs-trigger="hover" title="Important!"
+                        data-bs-content="Make sure that the values of the tracks are either space separated or comma separated. There should not be any comma before the first track value and after the last track value. Any track request should not exceed the maximum possible track number." style="border-radius: 8px; border: 1px solid rgba(52, 152, 219, 0.3); padding: 12px; transition: all 0.3s ease;">
+                </div>
+
+                <div class="algo-buttons" style="display: flex; justify-content: space-between; margin-top: 25px;">
+                    <input id="reset-button" type="reset" class="btn btn-dark form-control last_button"
+                        style="margin: 10px; border-radius: 8px; background: linear-gradient(135deg, #2c3e50, #34495e); border: none; padding: 12px; flex: 1; transition: all 0.3s ease; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                    <button id="run" type="button" class="btn btn-dark last_button disabled"
+                        data-bs-toggle="popover" data-bs-trigger="hover" title="Warning!"
+                        data-bs-content="None of the fields above should be empty. They should not contain any alphabetic or special character!"
+                        style="margin: 10px; border-radius: 8px; background: linear-gradient(135deg, #2980b9, #3498db); border: none; padding: 12px; flex: 1; transition: all 0.3s ease; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">Run</button>
+                </div>
+
+            </div>
+        </form>
+
+        <div class='chart-wrapper' style="margin-top: 30px; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 20px rgba(0,0,0,0.1);">
+            <div id="image" class="chart-display" style="background: rgba(255,255,255,0.8); padding: 20px; border-radius: 15px;">
+                <div class="show-element" id="chart-image" style="display: flex; justify-content: center; align-items: center; min-height: 300px; font-weight: 600; color: #7f8c8d; border-radius: 10px; background: rgba(52, 152, 219, 0.05); border: 2px dashed rgba(52, 152, 219, 0.3);">
+                    CHART WILL APPEAR HERE
+                </div>
+                <div id="chart-container" class="show-element">
+                    <div class="chartres" style="margin-bottom: 30px;">
+                        <canvas id="chart"></canvas>
+                    </div>
+
+                    <div id="seekShow" style="background: rgba(52, 152, 219, 0.05); padding: 20px; border-radius: 10px; display: flex; flex-direction: column; align-items: center;">
+                        <div id="seek" style="width: 80%; text-align: center;" data-bs-toggle="popover"
+                            data-bs-placement="left" data-bs-trigger="click" title="Important!"
+                            data-bs-content="Considering the successive track seek time as 1ms.">
+                            <h4 id="temp" style="color: #2c3e50; font-weight: 600;"> </h4>
+                            <h4 id="temp1" style="color: #2c3e50; font-weight: 600;"> </h4>
+                        </div>
+                        <div id="download-buttons" style="margin-top: 20px; display: flex; gap: 15px;">
+                            <div id="dImageIcon" style="cursor: pointer; transition: transform 0.3s ease;"></div>
+                            <div id="dPDFIcon" style="cursor: pointer; transition: transform 0.3s ease;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br>
+<br>
+<br>
+<!-- Footer -->
+<div id="foooter">
+    <div class="footer-dark modern-footer">
+        <footer>
+            <div id="footer-container" class="footercontainer">
+                <div class="footerflex-1">
+                    <div class="footerrow">
+
+                        <!-- Disk Scheduling Panel -->
+                        <div class="footerpanel-group" id="accordion">
+                            <div class="panel panel-default" id="footerpanel">
+                                <div class="footerpanel-heading">
+                                    <h4 class="footerpanel-title accordion-button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseThree"
+                                        aria-expanded="false" aria-controls="collapseThree">Disk Scheduling
+
+                                    </h4>
+                                </div>
+                                <div id="collapseThree" class="panel-collapse collapse" aria-labelledby="headingOne"
+                                    data-bs-parent="#accordion">
+                                    <div class="footercontent">
+                                        <ul style="list-style-type: none;">
+                                            <li><a href="fcfs.html">FCFS</a></li>
+                                            <li><a href="sstf.html">SSTF</a></li>
+                                            <li><a href="scan.html">SCAN</a></li>
+                                            <li><a href="cscan.html">C-SCAN</a></li>
+                                            <li><a href="look.html">LOOK</a></li>
+                                            <li><a href="clook.html">C-LOOK</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+                <div
+                    style="padding-top: 10px; width: 100%; display: flex; align-items: center; justify-content: center;">
+                    <div class="social-icons">
+                        <a href="https://github.com/LegendYouKnow/os.git" target="_blank" class="social-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white" class="bi bi-github" viewBox="0 0 16 16">
+                                <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z" />
+                            </svg>
+                        </a>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="copyright">OS Project © Team 100</div>
+                </div>
+            </div>
+        </footer>
+    </div>
+</div>
+
+<script src="js/Chart.min.js"></script>
+<script src="js/search.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.debug.js"></script>
+<script src="js/sstf.js"></script>
+
+</body>
+
+</html>
