@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Test Yourself - LOOK Algorithm</title>
+
+  <!-- Bootstrap CSS and Google Fonts -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;600&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    body {
+      font-family: 'Roboto Slab', Georgia, serif;
+      background: linear-gradient(to bottom right, #f7f9fc, #e1e8f0);
+      color: #2c3e50;
+    }
+
+    h1, h4 {
+      font-weight: 600;
+    }
+
+    .card {
+      border: none;
+      border-radius: 0.75rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+    .form-control, .btn {
+      border-radius: 0.5rem;
+    }
+
+    #test-chart {
+      background: #ffffff;
+      border-radius: 0.75rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      padding: 1rem;
+    }
+
+    input::placeholder {
+      font-style: italic;
+      color: #888;
+    }
+
+    .btn-dark, .btn-primary {
+      background-color: #2c3e50;
+      border: none;
+    }
+
+    .btn-dark:hover, .btn-primary:hover {
+      background-color: #1a242f;
+    }
+
+    .container {
+      max-width: 900px;
+    }
+
+    #feedback {
+      font-size: 1.1rem;
+    }
+
+    #restart-container {
+      margin-top: 1.5rem;
+    }
+
+    @media (max-width: 576px) {
+      #user-answer {
+        width: 100% !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container py-5">
+    <h1 class="text-center mb-4">Test Yourself - LOOK Algorithm</h1>
+
+    <div id="test-info" class="mb-4 d-none">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Test Case Details</h5>
+          <p><strong>Initial Head Position:</strong> <span id="head-pos"></span></p>
+          <p><strong>Requests:</strong> <span id="request-list"></span></p>
+          <p><strong>Direction:</strong> <span id="direction"></span></p>
+        </div>
+      </div>
+    </div>
+
+    <div id="question-section" class="text-center d-none">
+      <h4 id="question"></h4>
+      <input type="number" id="user-answer" class="form-control w-25 mx-auto mt-3" placeholder="Enter next head position" />
+      <button id="submit-btn" class="btn btn-primary mt-2" onclick="submitAnswer()">Submit</button>
+      <p id="feedback" class="mt-3 fw-bold"></p>
+    </div>
+
+    <div class="mt-5">
+      <canvas id="test-chart" height="100"></canvas>
+    </div>
+
+    <div id="restart-container" class="text-center mt-4" style="display:none;">
+      <button id="restart-btn" class="btn btn-secondary">Test Yourself Again</button>
+    </div>
+  </div>
+
+  <script>
+    let testSequence = [], currentStep = 0, chart = null;
+    let ctx = null;
+    let head = 0;
+    let direction = '';
+    let allRequests = [];
+
+    window.onload = () => {
+      startTest();
+      document.getElementById("restart-btn").addEventListener("click", () => {
+        document.getElementById("restart-container").style.display = "none";
+        startTest();
+      });
+    };
+
+    function startTest() {
+      const testData = generateLOOKOrder();
+      testSequence = testData.order;
+      head = testData.head;
+      direction = testData.direction;
+      allRequests = testData.requests;
+
+      currentStep = 0;
+      document.getElementById("question-section").classList.remove("d-none");
+      document.getElementById("test-info").classList.remove("d-none");
+      document.getElementById("restart-container").style.display = "none";
+
+      document.getElementById("head-pos").textContent = head;
+      document.getElementById("request-list").textContent = allRequests.filter(r => r !== head).join(', ');
+      document.getElementById("direction").textContent = direction.charAt(0).toUpperCase() + direction.slice(1);
+
+      document.getElementById("feedback").textContent = "";
+      document.getElementById("user-answer").classList.remove("d-none");
+      document.getElementById("submit-btn").classList.remove("d-none");
+
+      askNextQuestion();
+      drawTestChart();
+    }
+
+    function generateLOOKOrder() {
+      const numTracks = 200;
+      const head = Math.floor(Math.random() * 180) + 10;
+      const direction = Math.random() < 0.5 ? 'left' : 'right';
+      const requests = Array.from({ length: 8 }, () => Math.floor(Math.random() * numTracks));
+      requests.push(head);
+      requests.sort((a, b) => a - b);
+
+      const left = requests.filter(r => r < head).sort((a, b) => b - a);
+      const right = requests.filter(r => r > head).sort((a, b) => a - b);
+      let order;
+      if (direction === 'left') {
+        order = [head, ...left, ...right];
+      } else {
+        order = [head, ...right, ...left];
+      }
+
+      return { order, head, direction, requests };
+    }
+
+    function askNextQuestion() {
+      if (currentStep >= testSequence.length - 1) {
+        document.getElementById("question").textContent = "Test Complete!";
+        document.getElementById("user-answer").classList.add("d-none");
+        document.getElementById("submit-btn").classList.add("d-none");
+        document.getElementById("restart-container").style.display = "block";
+        return;
+      }
+      document.getElementById("question").textContent = `Step ${currentStep + 1}: Where will the head move next?`;
+      document.getElementById("user-answer").value = "";
+      document.getElementById("feedback").textContent = "";
+    }
+
+    function submitAnswer() {
+      const input = parseInt(document.getElementById("user-answer").value);
+      const correct = testSequence[currentStep + 1];
+      const feedback = document.getElementById("feedback");
+      if (input === correct) {
+        feedback.textContent = "✅ Correct!";
+        feedback.classList.remove("text-danger"); feedback.classList.add("text-success");
+      } else {
+        feedback.textContent = `❌ Incorrect. Correct answer: ${correct}`;
+        feedback.classList.remove("text-success"); feedback.classList.add("text-danger");
+      }
+      currentStep++;
+      drawTestChart();
+      if (currentStep < testSequence.length - 1) {
+        setTimeout(askNextQuestion, 1500);
+      } else {
+        document.getElementById("question").textContent = "Test Complete!";
+        document.getElementById("user-answer").classList.add("d-none");
+        document.getElementById("submit-btn").classList.add("d-none");
+        document.getElementById("restart-container").style.display = "block";
+      }
+    }
+
+    function drawTestChart() {
+      if (!ctx) ctx = document.getElementById("test-chart").getContext("2d");
+      const labels = testSequence.slice(0, currentStep + 1).map((_, i) => `Step ${i}`);
+      const data = testSequence.slice(0, currentStep + 1);
+      if (chart) chart.destroy();
+      chart = new Chart(ctx, {
+        type: 'line', data: { labels, datasets: [{ label: 'Head Movement', data, borderColor: 'rgba(52, 152, 219, 1)', fill: false, tension: 0.1, pointBackgroundColor: '#2c3e50' }] },
+        options: { responsive: true, scales: { y: { title: { display: true, text: 'Track Number' }, beginAtZero: true, suggestedMax: 200 } } }
+      });
+    }
+  </script>
+</body>
+</html>
